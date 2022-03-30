@@ -1,7 +1,7 @@
 ## Background
 This is a package for COG participants to get necessary image and vector data to train and test their models.
 ##Install
-pip install -i https://test.pypi.org/simple/ CogEnvDecoder==0.0.7
+pip install CogEnvDecoder
 ##Usages
 The code is able to get observations generated from ml-agents in the COG stimulation environment.
 With the code, you can get:
