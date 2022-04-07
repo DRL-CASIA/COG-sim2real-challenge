@@ -5,9 +5,9 @@ How to use the code we provided?
 
         1.We provide two environments for you  using different os(Windows/Linux) to paticipate to this competition.You can get the environment by the Baidu network disk:
 
-        a. The Windows version:link：https://pan.baidu.com/s/1r71AoU-iv1KocmMFP7gVWQ  Extraction code：qoy7
+        a. The Windows version,link:https://pan.baidu.com/s/1Wvt2slEDMeqULXCqeGzqoQ Extraction code:78xm
 
-        b. The Linux version:link: https://pan.baidu.com/s/1J6STeWEqgsw8m4N28PJWdQ  Extraction code：4i1z
+        b. The Linux version,link:https://pan.baidu.com/s/1oFifZWyzYRWAPQEBMkTIsQ Extraction code:r9u4
 
         2. You can install the environment dependent using the command:conda env create -f environment_*.yml.
 
