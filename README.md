@@ -8,9 +8,7 @@ How to use the code we provided?
 a. The Windows version:link：https://pan.baidu.com/s/1r71AoU-iv1KocmMFP7gVWQ  Extraction code：qoy7
 
 b. The Linux version:link: https://pan.baidu.com/s/1J6STeWEqgsw8m4N28PJWdQ  Extraction code：4i1z
-
 2. You can install the environment dependent using the command:conda env create -f environment.yml.
-
 3. Run the test.py, you will see our simulation environment.
 
 Special Note：this is our first demo environment, we will update some new version according to the performance of contestants .
