@@ -12,7 +12,8 @@ How to use the code we provided?
         2. You can install the environment dependent using the command:conda env create -f environment.yml.
 
         3. Run the test.py, you will see our simulation environment.
-
-        Special Note：this is our first demo environment, we will update some new version according to the performance of contestants .
         
-        when the game officially starts, we will provide the baseline algrithom for you.
+       
+Special Note：this is our first demo environment, we will update some new version according to the performance of contestants .
+        
+When the game officially starts, we will provide the baseline algrithom for you.
