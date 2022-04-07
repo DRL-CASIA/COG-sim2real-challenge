@@ -1,5 +1,5 @@
 # COG-baseline-track1
-This repository is related to the 2022 CoG Robomaster Sim2Real Challenge.In this repository, we will provide our environment for you, and you can also find the way of the necessary environment API in test.py.We recommend using conda to create a virtual environment.
+This repository is related to the 2022 CoG Robomaster Sim2Real Challenge.In this repository, we will provide our environment for you, and you can also find the Instructions of the necessary environment API in test.py.We recommend using conda to create a virtual environment.
 
 How to use the code we provided?
 
