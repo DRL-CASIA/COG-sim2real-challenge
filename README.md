@@ -5,7 +5,7 @@ We recommend using conda to create a virtual environment.
 
 How to use the code we provided?  
 
-1.We provide two environments for you to use different os(Windows/Linux) to paticipate in this competition.You can get the environment by the baidu network disk:  
+Step 1.We provide two environments for you to use different os(Windows/Linux) to paticipate in this competition.You can get the environment by the baidu network disk:  
 
 a. The Windows version, link:  
 
@@ -23,11 +23,11 @@ Extraction code:
 
         r9u4  
         
-2. You can install the environment dependent using the command:
+Step 2. You can install the environment dependent using the command:
 
         conda env create -f environment_*.yml.  
 
-3. Run the test_*.py, you will see our simulation environment.  
+Step 3. Run the test_*.py, you will see our simulation environment.  
                
 Special Note：this is our first demo environment, we will update some new version according to the performance of contestants .  
         
