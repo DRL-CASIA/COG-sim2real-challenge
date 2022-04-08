@@ -17,13 +17,11 @@ b. The Linux version, link:
 Extraction code:
         r9u4
 
-        
 2. You can install the environment dependent using the command:
         conda env create -f environment_*.yml.
 
 3. Run the test_*.py, you will see our simulation environment.
-        
-       
+               
 Special Note：this is our first demo environment, we will update some new version according to the performance of contestants .
         
 When the game officially starts, we will provide the baseline algrithom for you.
