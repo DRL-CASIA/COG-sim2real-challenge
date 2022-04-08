@@ -8,8 +8,11 @@ How to use the code we provided?
 1.We provide two environments for you to use different os(Windows/Linux) to paticipate in this competition.You can get the environment by the baidu network disk:
 
 a. The Windows version, link:
+
         https://pan.baidu.com/s/1Wvt2slEDMeqULXCqeGzqoQ 
+        
 Extraction code:
+
         78xm
 
 b. The Linux version, link:
