@@ -22,7 +22,6 @@ b. The Linux version, link:
 Extraction code:
 
         r9u4
-
 2. You can install the environment dependent using the command:
 
         conda env create -f environment_*.yml.
