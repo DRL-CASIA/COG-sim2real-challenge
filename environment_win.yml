@@ -32,4 +32,3 @@ dependencies:
     - six==1.16.0
     - typing-extensions==4.1.1
     - zipp==3.8.0
-prefix: D:\software\anaconda\envs\sim2real
