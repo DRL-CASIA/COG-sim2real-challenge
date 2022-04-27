@@ -13,21 +13,21 @@ import keyboard
 import time
 from Cogenvdecoder import  UdpComms as U
 
-num_vector = 7
+
 
 
 class CogEnvDecoder:
-    def __init__(self, size=(400, 400), train=True, allow_multiple_obs=True, env_name='RealGame.exe', mat_num=0):
+    def __init__(self, train=True, allow_multiple_obs=True, env_name='RealGame.exe', mat_num=0, no_graphics=False, time_scale=1):
         if train:
             engine_configuration_channel = EngineConfigurationChannel()
-            engine_configuration_channel.set_configuration_parameters(width=100, height=100, time_scale=100)
-            unity_env = UnityEnvironment(env_name, worker_id=2)
+            engine_configuration_channel.set_configuration_parameters(width=100, height=100, time_scale=time_scale)
+            unity_env = UnityEnvironment(env_name, worker_id=2, no_graphics=no_graphics)
             self._env = UnityToGymWrapper(unity_env)
         else:
             unity_env = UnityEnvironment(env_name, worker_id=1)
             self._env = UnityToGymWrapper(unity_env)
 
-        self._size = size
+        self._size = (300,300)
         # print(self._env.reward_range)
         self.reward_range = self._env.reward_range
         self.metadata = self._env.metadata
@@ -38,16 +38,31 @@ class CogEnvDecoder:
         self.depth_sock = U.UdpComms(udpIP="127.0.0.1", portTX=8002, portRX=8003,enableRX=True, suppressWarnings=True)
         self.last_frame = np.zeros((100, 100), dtype=np.uint8)
         self.last_depth_frame = np.zeros((100, 100), dtype=np.uint8)
-        data = open("RealGame_Data/data.txt", "w")
-        data.write(str(mat_num))
-        data.close()
+        self._load_step = False #allow action transfer to run
+        self._obs = None
+        self._reward = None
+        self._done = None
+        self._info = None
+        self._action = [0, 0, 0, 0]
+        self._load = 0 #Check whether the action has been loaded
+        if env_name == 'RealGame.exe':
+            data = open("RealGame_Data/data.txt", "w")
+            data.write(str(mat_num))
+            data.close()
+        elif env_name == '1.x86_64':
+            data = open("data.txt", "w")
+            data.write(str(mat_num))
+            data.close()
+
 
     @property
     def observation_space(self):
         shape_image = self._size + (3,)
-        space_image = gym.spaces.Box(low=0, high=255, shape=shape_image, dtype=np.uint8)
+        color_image = gym.spaces.Box(low=0, high=255, shape=shape_image, dtype=np.uint8)
+        num_vector  =26
         space_vector = gym.spaces.Box(low=-np.Inf, high=np.Inf, shape=(num_vector,), dtype=np.float32)
-        return gym.spaces.Dict({'image': space_image, 'vector': space_vector})
+        depth_image = gym.spaces.Box(low=0, high=255, shape=shape_image, dtype=np.uint8)
+        return gym.spaces.Dict({'color_image': space_image, 'depth_image': depthimage, 'vector': space_vector})
         # return space_image
 
     @property
@@ -58,11 +73,11 @@ class CogEnvDecoder:
         return self._env.close()
 
     def reset(self):
-        #self._end_thread = True
-        #self._thread.join()
+        self._end_thread = True
+        # self._thread.join()
         obs = self._env.reset()
-        #self._end_thread = False
-        #self.step_thread_begin()
+        self._end_thread = False
+        # self.step_thread_begin()
         img = self.read_img()
         self_pos = self._GetSelfPos(obs)  # Blue one Position
         enemy_pos = self._EnemyPos(obs)  # Red one position
@@ -81,6 +96,7 @@ class CogEnvDecoder:
         action_tuple = ActionTuple()
         action_tuple.add_continuous(action)
         self._env._env.set_actions(self._env.name, action_tuple)
+
         decision_step, terminal_step = self._env._env.get_steps(self._env.name)
         self._env._check_agents(max(len(decision_step), len(terminal_step)))
         #print(self._env.name)
@@ -91,10 +107,36 @@ class CogEnvDecoder:
         else:
             return self._env._single_step(decision_step)
 
-    def step_action(self, action):
-        obs, reward, done, info = self._env.step(action)
-        # obs = self._get_obs(obs)
 
+    def step_action(self, action):
+        #obs, reward, done, info = self.action_transfer(action)
+        obs, reward, done, info = self._env.step(action)
+        #start = time.time()
+        #self.action_transfer(action)
+        #print(time.time() - start)
+        #obs = self._obs
+        #reward = self._reward
+        #done = self._done
+        #info = self._info
+        # img = self.read_img()
+        # depth_img = self.read_depth_img()
+        # self_pos = self._GetSelfPos(obs)  # Blue one Position
+        # enemy_pos = self._EnemyPos(obs)  # Red one position
+        # goal1 = self._GetGoal1Pos(obs)  # Goal 1 position, whether it has been activated
+        # goal2 = self._GetGoal2Pos(obs)  # Goal 2 position, whether it has been activated
+        # goal3 = self._GetGoal3Pos(obs)  # Goal 3 position, whether it has been activated
+        # goal4 = self._GetGoal4Pos(obs)  # Goal 4 position, whether it has been activated
+        # goal5 = self._GetGoal5Pos(obs)  # Goal 5 position, whether it has been activated
+        # flag_ach = self._AchievedGoals(obs)  # Num of goals have been achieved
+        # enemy_act = self._EnemyStatus(obs)  # Whether enemy has been activated
+        # enemy_info = self._EnemyInfo(obs)  # Red one remaining HP & bullets
+        # score = self._Score(obs)  # Current score
+        # self_info = self._SelfInfo(obs)  # Blue one remaining HP & bullet
+        # dmg = self._DmgCaused(obs)  # blue one caused damage to red one
+        # time_taken = self._TimeTaken(obs)  # Time passed in the round
+        # collision_info = self._CollCondtion(obs)  # collision times and continuous collision time
+        # final_obs = [img, self_pos, enemy_pos, self_info, goal1, goal2, goal3, goal4, goal5, collision_info, depth_img]
+        # judge_result = [score, flag_ach, enemy_act, enemy_info, dmg, time_taken]
         img = self.read_img()
         depth_img = self.read_depth_img()
         self_pos = self._GetSelfPos(obs)  # Blue one Position
@@ -110,10 +152,13 @@ class CogEnvDecoder:
         score = self._Score(obs)  # Current score
         self_info = self._SelfInfo(obs)  # Blue one remaining HP & bullet
         dmg = self._DmgCaused(obs)  # blue one caused damage to red one
-        time = self._TimeTaken(obs)  # Time passed in the round
+        time_taken = self._TimeTaken(obs)  # Time passed in the round
         collision_info = self._CollCondtion(obs)  # collision times and continuous collision time
-        final_obs = [img, self_pos, enemy_pos, self_info, goal1, goal2, goal3, goal4, goal5, collision_info, depth_img]
-        judge_result = [score, flag_ach, enemy_act, enemy_info, dmg, time]
+        final_obs = [img, self_pos, enemy_pos, self_info, goal1, goal2, goal3, goal4, goal5, collision_info,
+                        depth_img]
+        judge_result = [score, time_taken, collision_info, dmg, flag_ach, enemy_info, self_info]
+
+
         return final_obs, reward, done, [info, judge_result]
 
     def render(self, mode):
@@ -135,55 +180,6 @@ class CogEnvDecoder:
             self.last_depth_frame = depth_img
         return depth_img
 
-    def _get_obs(self, obs):
-        img = np.zeros((400, 400, 3), np.uint8)
-        # end_position = (math.floor(obs[0]*100),math.floor(obs[1]*100))
-        # print("我是end_position:",end_position)
-        # cv.circle(img, end_position, 2, (0, 0, 255), 4)#BGR
-        # ptStart = (math.floor(obs[2]*100),math.floor(obs[3]*100))
-        ptStart = (200, 200)
-        # print("我是ptStart:",ptStart)
-        robot_angle = obs[2]
-        yaw = 0
-        test_yaw = []
-        vector = []
-        vector.append(obs[0])
-        vector.append(obs[1])
-        vector.append(obs[2])
-        vector.append(obs[3])
-        vector.append(obs[4])
-        vector.append(obs[5])
-        vector.append(obs[6])
-        for i in range(len(obs)):
-            if i < num_vector:
-                continue
-            elif i > 6 and i < 120:
-                yaw = i - num_vector
-                # yaw = 0
-
-            else:
-                yaw = i + 130
-                # yaw = 0
-
-            late_yaw = 90 / 57.3 - (robot_angle - yaw / 57.3)
-            # test_yaw.append(late_yaw)
-            # print(i)
-            # print(len(test_yaw))
-            distance = obs[i]
-            ptEnd = (math.floor(distance * math.cos(late_yaw) * 100) + 200,
-                     math.floor(distance * math.sin(late_yaw) * 100) + 200)
-            point_color = (0, 255, 0)
-            thickness = 1
-            lineType = 4
-            cv.line(img, ptStart, ptEnd, point_color, thickness, lineType)
-            # cv.namedWindow("image")
-        img = cv.flip(img, 0)
-        # print(len(test_yaw))
-        # cv.imshow('image', img)
-        # cv.waitKey(600)
-        # cv.destroyAllWindows()
-        return {'image': img, 'vector': np.array(vector)}
-        # return img
 
     def _GetImg(self, imgData):
         img_length = int(imgData[100000])
@@ -286,7 +282,7 @@ class CogEnvDecoder:
         coll_time = data[23]
         cont_coll_time = data[24]
         return [coll_time, cont_coll_time]
-'''
+
     def _thread_step(self):
         quit = False
         #print('1')
@@ -296,15 +292,57 @@ class CogEnvDecoder:
             if self._end_thread == True:
                 return
 
+    def _thread_step_action(self):
+        done = False
+        while done == False and self._end_thread == False:
+            #print(done)
+            #if np.count_nonzero(np.asarray(self._action)) != 4 and self._load == 0:
+            #    self._load = 1
+                #print('here')
+
+            obs, reward, done, info = self._env.step(self._action)
+            #if self._load == 1:
+                #print(self._action)
+            #    self._action = [0, 0, 0, 0]
+            #print(self._action)
+            img = self.read_img()
+            depth_img = self.read_depth_img()
+            self_pos = self._GetSelfPos(obs)  # Blue one Position
+            enemy_pos = self._EnemyPos(obs)  # Red one position
+            goal1 = self._GetGoal1Pos(obs)  # Goal 1 position, whether it has been activated
+            goal2 = self._GetGoal2Pos(obs)  # Goal 2 position, whether it has been activated
+            goal3 = self._GetGoal3Pos(obs)  # Goal 3 position, whether it has been activated
+            goal4 = self._GetGoal4Pos(obs)  # Goal 4 position, whether it has been activated
+            goal5 = self._GetGoal5Pos(obs)  # Goal 5 position, whether it has been activated
+            flag_ach = self._AchievedGoals(obs)  # Num of goals have been achieved
+            enemy_act = self._EnemyStatus(obs)  # Whether enemy has been activated
+            enemy_info = self._EnemyInfo(obs)  # Red one remaining HP & bullets
+            score = self._Score(obs)  # Current score
+            self_info = self._SelfInfo(obs)  # Blue one remaining HP & bullet
+            dmg = self._DmgCaused(obs)  # blue one caused damage to red one
+            time_taken = self._TimeTaken(obs)  # Time passed in the round
+            collision_info = self._CollCondtion(obs)  # collision times and continuous collision time
+            final_obs = [img, self_pos, enemy_pos, self_info, goal1, goal2, goal3, goal4, goal5, collision_info,
+                         depth_img]
+            judge_result = [score, time_taken, collision_info, dmg, flag_ach, enemy_info, self_info]
+            self._obs = final_obs
+            self._reward = reward
+            self._done = done
+            self._info = [info, judge_result]
+
 
 
 
     def step_thread_begin(self):
-        self._thread = Thread(target=self._thread_step)
-        #print('2')
+        #self._thread = Thread(target=self._thread_step)
+        self._thread = Thread(target=self._thread_step_action)
+
         self._thread.start()
         #print('3')
         #self._thread.join()
         #print('4')
 
-'''
+    def set_action(self, action):
+        self._action = action
+        #self._load = 0
+        return self._obs, self._reward, self._done, self._info
