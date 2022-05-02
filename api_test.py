@@ -1,6 +1,4 @@
-#pip install CogEnvDecoder==0.1.0
-
-from cog_env_api import CogEnvDecoder
+from Cogenvdecoder import CogEnvDecoder
 import numpy as np
 import cv2
 
