@@ -1,0 +1,34 @@
+name: sim2real
+channels:
+  - defaults
+dependencies:
+  - ca-certificates=2022.3.29=haa95532_0
+  - certifi=2021.10.8=py37haa95532_2
+  - openssl=1.1.1n=h2bbff1b_0
+  - pip=21.2.4=py37haa95532_0
+  - python=3.7.13=h6244533_0
+  - setuptools=58.0.4=py37haa95532_0
+  - sqlite=3.38.2=h2bbff1b_0
+  - vc=14.2=h21ff451_1
+  - vs2015_runtime=14.27.29016=h5e58377_2
+  - wheel=0.37.1=pyhd3eb1b0_0
+  - wincertstore=0.2=py37haa95532_2
+  - pip:
+    - cloudpickle==2.0.0
+    - cogenvdecoder==0.1.0
+    - filelock==3.6.0
+    - grpcio==1.44.0
+    - gym==0.20.0
+    - gym-notices==0.0.6
+    - gym-unity==0.28.0
+    - importlib-metadata==4.11.3
+    - mlagents-envs==0.28.0
+    - numpy==1.21.2
+    - opencv-python==4.5.5.64
+    - pettingzoo==1.17.0
+    - pillow==9.1.0
+    - protobuf==3.20.0
+    - pyyaml==6.0
+    - six==1.16.0
+    - typing-extensions==4.1.1
+    - zipp==3.8.0
