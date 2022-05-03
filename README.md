@@ -5,7 +5,7 @@ We recommend using conda to create a virtual environment.
 
 How to use the code we provided?  
 
-Step 1.We provide two environments for you to use different os(Windows/Linux) to paticipate in this competition.You can get the environment by tag:  
+Step 1.We provide two environments for you to use different os(Windows/Linux) to paticipate in this competition.You can get the environment by tags on top:  
         
 Step 2. You can install the environment dependent using the command(you must have installed anaconda/miniconda first.):
 
