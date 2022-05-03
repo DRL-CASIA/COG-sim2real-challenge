@@ -18,7 +18,7 @@ def check_state(state, info=None):
     # total counts of collisions, total collision time
     print("total collisions: {}, total collision time: {} ".format(vector_data[10][0], vector_data[10][1]))
     if info is not None:
-        print("enemy active: {}".format(info[1][3]))
+        print("Number of goals have been activated: {}".format(info[1][3]))
         # attack damage is blue one caused damage to red one
         print("time taken: {}, attack damage: {}, score: {}".format(info[1][1], info[1][2], info[1][0]))
     print("-----------------------end check---------------------")

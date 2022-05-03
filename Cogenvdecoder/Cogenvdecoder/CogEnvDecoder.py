@@ -136,7 +136,7 @@ class CogEnvDecoder:
         print("goal 1: {}, goal 2: {}, goal 3: {}, goal 4: {}, goal 5:{}".format(vector_data[5], vector_data[6], vector_data[7], vector_data[8], vector_data[9]))
         print("total collisions: {}, total collision time: {} ".format(vector_data[10][0], vector_data[10][1]))
         if info is not None:
-            print("enemy active: {}".format(info[1][3]))
+            print("Number of goals have been activated: {}".format(info[1][3]))
             print("time taken: {}, attack damage: {}, score: {}".format(info[1][1], info[1][2], info[1][0]))
         print("-----------------------end check---------------------")
     def render(self, mode):
