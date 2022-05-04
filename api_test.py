@@ -1,4 +1,4 @@
-from Cogenvdecoder import CogEnvDecoder
+from Cogenvdecoder.CogEnvDecoder import CogEnvDecoder
 import numpy as np
 import cv2
 
