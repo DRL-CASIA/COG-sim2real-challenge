@@ -21,7 +21,7 @@ Step 4. Run the api_test.py, you will see our simulation environment.
 
 ## Important notes
 
-The data from the simulator is clear, but it will be perturbed with biases and noises. More information can be found in the [rulebook](https://github.com/DRL-CASIA/COG-sim2real-challenge/blob/main/CoG%20Challenge%20Rules-v1.2.pdf).
+The data from the simulator is clear, but it will be perturbed with biases and noises during the test stage. More information can be found in the [rulebook](https://github.com/DRL-CASIA/COG-sim2real-challenge/blob/main/CoG%20Challenge%20Rules-v1.2.pdf).
                
 ## Thanks
 
