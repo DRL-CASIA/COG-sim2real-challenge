@@ -16,7 +16,7 @@ Step 2. You can install the environment dependent using the command(you must hav
 
 Step 3. Install the COG_API package with command:
 
-        pip install CogEnvDecoder==0.1.28
+        pip install CogEnvDecoder
 
 Step 4. Run the api_test.py, you will see our simulation environment.  
 
