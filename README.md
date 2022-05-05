@@ -1,9 +1,10 @@
 # 2022 COG RoboMaster Sim2Real Challenge
-This repository is related to the 2022 CoG Robomaster Sim2Real Challenge which is organized by CASIA DRL Team.In this repository, we will provide the competiton environment for you, and you can also find the Instructions of the necessary environment API in api_test. py.            
+This repository is related to the 2022 CoG Robomaster Sim2Real Challenge which is organized by CASIA DRL Team.In this repository, we will provide the competiton environment for you, and you can also find the Instructions of the necessary environment API in api_test.py.            
 
-We recommend using conda to create a virtual environment.  
 
 ## Install
+
+We recommend using conda to create a virtual environment. 
 
 Step 1.We provide two environments for you to use different os(Windows/Linux) to paticipate in this competition.You can get the environment by tags on top.  On linux platform, you need to give the simulator executable permission
 
