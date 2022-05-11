@@ -15,7 +15,7 @@ dependencies:
   - wincertstore=0.2=py37haa95532_2
   - pip:
     - cloudpickle==2.0.0
-    - cogenvdecoder==0.1.0
+    - cogenvdecoder==0.1.29
     - filelock==3.6.0
     - grpcio==1.44.0
     - gym==0.20.0
