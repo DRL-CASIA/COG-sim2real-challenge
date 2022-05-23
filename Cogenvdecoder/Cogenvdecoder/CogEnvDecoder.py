@@ -1,5 +1,6 @@
 from mlagents_envs.environment import UnityEnvironment
 from mlagents_envs.side_channel.engine_configuration_channel import EngineConfigurationChannel
+from mlagents_envs.side_channel.environment_parameters_channel import EnvironmentParametersChannel
 from mlagents_envs.base_env import BaseEnv, ActionTuple
 from gym_unity.envs import UnityToGymWrapper
 import gym
@@ -7,13 +8,17 @@ import math
 import numpy as np
 import cv2 as cv
 import io
+from random import randint
 
 class CogEnvDecoder:
-    def __init__(self, worker_id=1, train=True, allow_multiple_obs=True, env_name="linux_V1/1.x86_64", mat_num=0, no_graphics=False, time_scale=1):
+    def __init__(self, worker_id=1, train=True, allow_multiple_obs=True, env_name="linux_V1/1.x86_64", mat_num=0, windows_width=600, windows_height=300, no_graphics=False, time_scale=1):
         if train:
             engine_configuration_channel = EngineConfigurationChannel()
-            engine_configuration_channel.set_configuration_parameters(width=50, height=50, time_scale=time_scale)
-            unity_env = UnityEnvironment(env_name, worker_id=worker_id, no_graphics=no_graphics)
+            engine_configuration_channel.set_configuration_parameters(width=windows_width, height=windows_height, time_scale=time_scale)
+            self._engine_Environment_channel = EnvironmentParametersChannel()
+
+            unity_env = UnityEnvironment(env_name, worker_id=worker_id, no_graphics=no_graphics, side_channels=[self._engine_Environment_channel, engine_configuration_channel])
+
             self._env = UnityToGymWrapper(unity_env, allow_multiple_obs=True, uint8_visual=True)
         else:
             unity_env = UnityEnvironment(env_name, worker_id=worker_id)
@@ -25,8 +30,7 @@ class CogEnvDecoder:
         self.allow_multiple_obs = allow_multiple_obs
         self.spec = self._env.spec
 
-        # self.last_frame = np.zeros((100, 100), dtype=np.uint8)
-        # self.last_depth_frame = np.zeros((100, 100), dtype=np.uint8)
+
         self._load_step = False #allow action transfer to run
         self._obs = None
         self._reward = None
@@ -54,8 +58,8 @@ class CogEnvDecoder:
     def close(self):
         return self._env.close()
 
+
     def reset(self):
-  
 
         obs = self._env.reset()
 
@@ -87,7 +91,6 @@ class CogEnvDecoder:
 
 
     def step(self, action):
-        
 
         obs, reward, done, info = self._env.step(action)
         
@@ -122,7 +125,6 @@ class CogEnvDecoder:
 
         state = {"color_image":img, "laser": laser, "vector": vector_state}
 
-
         return state, reward, done, [info, judge_result]
     
     def check_state(self, state, info=None):
@@ -136,7 +138,7 @@ class CogEnvDecoder:
         print("goal 1: {}, goal 2: {}, goal 3: {}, goal 4: {}, goal 5:{}".format(vector_data[5], vector_data[6], vector_data[7], vector_data[8], vector_data[9]))
         print("total collisions: {}, total collision time: {} ".format(vector_data[10][0], vector_data[10][1]))
         if info is not None:
-            print("Number of goals have been activated: {}".format(info[1][3]))
+            print("enemy active: {}".format(info[1][3]))
             print("time taken: {}, attack damage: {}, score: {}".format(info[1][1], info[1][2], info[1][0]))
         print("-----------------------end check---------------------")
     def render(self, mode):
@@ -231,6 +233,7 @@ class CogEnvDecoder:
         return [coll_time, cont_coll_time]
 
     def _GetLaser(self, data):
-        laser_data = data[1][26:]
+        laser_data = data[1][26:86]
         return laser_data
+
     
