@@ -23,6 +23,12 @@ Step 4. Run the api_test.py, you will see our simulation environment.
 ## Important notes
 
 The data from the simulator is clear, but it will be perturbed with biases and noises during the test stage. More information can be found in the [rulebook](https://github.com/DRL-CASIA/COG-sim2real-challenge/blob/main/CoG%20Challenge%20Rules-v1.2.pdf).
+
+## Submission Guide
+For submission, cog_agent.py must be included in the submitted files, and participants reconstruct agent_cotrol() function. When testing, agent_control will be called to test the model. A simple test pipline can be found in submit_test.py. 
+
+In addition, if the submitted code depends on additional packages, it is best to add readme.md files so that we can configure the environment easily.
+
                
 ## Thanks
 
