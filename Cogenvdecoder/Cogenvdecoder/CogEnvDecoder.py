@@ -11,13 +11,13 @@ import io
 from random import randint
 
 class CogEnvDecoder:
-    def __init__(self, worker_id=1, train=True, allow_multiple_obs=True, env_name="linux_V1/1.x86_64", mat_num=0, windows_width=600, windows_height=300, no_graphics=False, time_scale=1):
+    def __init__(self, worker_id=1, train=True, allow_multiple_obs=True, env_name="linux_V1/1.x86_64", mat_num=0, windows_width=600, windows_height=300, no_graphics=False, time_scale=1, seed=0):
         if train:
             engine_configuration_channel = EngineConfigurationChannel()
             engine_configuration_channel.set_configuration_parameters(width=windows_width, height=windows_height, time_scale=time_scale)
             self._engine_Environment_channel = EnvironmentParametersChannel()
 
-            unity_env = UnityEnvironment(env_name, worker_id=worker_id, no_graphics=no_graphics, side_channels=[self._engine_Environment_channel, engine_configuration_channel])
+            unity_env = UnityEnvironment(env_name, worker_id=worker_id, no_graphics=no_graphics, side_channels=[self._engine_Environment_channel, engine_configuration_channel], seed=seed)
 
             self._env = UnityToGymWrapper(unity_env, allow_multiple_obs=True, uint8_visual=True)
         else:
@@ -233,7 +233,7 @@ class CogEnvDecoder:
         return [coll_time, cont_coll_time]
 
     def _GetLaser(self, data):
-        laser_data = data[1][26:86]
+        laser_data = data[1][26:]
         return laser_data
 
     
