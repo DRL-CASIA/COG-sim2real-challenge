@@ -2,7 +2,7 @@ from Cogenvdecoder.CogEnvDecoder import CogEnvDecoder
 import numpy as np
 from cog_agent import Agent
 
-env = CogEnvDecoder(env_name="mac_confrontation_v2/cog_confrontation_env.app", no_graphics=False, time_scale=1, worker_id=1) 
+env = CogEnvDecoder(env_name="mac_confrontation_v2/cog_confrontation_env.app", no_graphics=False, time_scale=1, worker_id=1, seed=1234, force_sync=False) 
 
 num_eval_episodes = 10
 
